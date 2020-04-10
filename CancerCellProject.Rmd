@@ -1,0 +1,576 @@
+---
+title: "Predicting Malignant vs Benign Cancer Cells "
+output:
+  pdf_document: default
+  word_document: default
+
+---
+Names of Collaborators: Shravya Guda, Steven Lauretti, Mitchell Speer
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo =TRUE)
+#knitr::opts_chunk$set(eval = FALSE, echo =TRUE)
+rm(list=ls())
+#setwd("~/Intro to Data Science/Group Project")
+library(tidyverse)
+library(partykit)
+```
+
+##Initial Setup
+Load in the data, run an overall summary and table of diagnosis variable in the overall data set
+```{r}
+cancer <- read.csv("FNA_cancer.csv")
+summary(cancer)
+print("Count of benign and malignant in total data set")
+basetable <- table(cancer$diagnosis)
+basetable
+```
+##Exploratory Data Analysis
+Initial analysis of each variable using a box plot of the diagnosis variable. Looking for clustering and separation of the data between values of the diagnosis variable.
+```{r}
+library(gridExtra)
+b3 <- ggplot(data=cancer,aes(y=cancer[3],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[3]))
+b4 <- ggplot(data=cancer,aes(y=cancer[4],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[4]))
+b5 <- ggplot(data=cancer,aes(y=cancer[5],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[5]))
+b6 <- ggplot(data=cancer,aes(y=cancer[6],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[6]))
+b7 <- ggplot(data=cancer,aes(y=cancer[7],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[7]))
+b8 <- ggplot(data=cancer,aes(y=cancer[8],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[8]))
+b9 <- ggplot(data=cancer,aes(y=cancer[9],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[9]))
+b10<- ggplot(data=cancer,aes(y=cancer[10],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[10]))
+b11<- ggplot(data=cancer,aes(y=cancer[11],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[11]))
+b12<- ggplot(data=cancer,aes(y=cancer[12],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[12]))
+b13<- ggplot(data=cancer,aes(y=cancer[13],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[13]))
+b14<- ggplot(data=cancer,aes(y=cancer[14],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[14]))
+b15<- ggplot(data=cancer,aes(y=cancer[15],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[15]))
+b16<- ggplot(data=cancer,aes(y=cancer[16],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[16]))
+b17<- ggplot(data=cancer,aes(y=cancer[17],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[17]))
+b18<- ggplot(data=cancer,aes(y=cancer[18],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[18]))
+b19<- ggplot(data=cancer,aes(y=cancer[19],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[19]))
+
+b20<- ggplot(data=cancer,aes(y=cancer[20],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[20]))
+b21<- ggplot(data=cancer,aes(y=cancer[21],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[21]))
+b22<- ggplot(data=cancer,aes(y=cancer[22],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[22]))
+b23<- ggplot(data=cancer,aes(y=cancer[23],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[23]))
+b24<- ggplot(data=cancer,aes(y=cancer[24],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[24]))
+b25<- ggplot(data=cancer,aes(y=cancer[25],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[25]))
+b26<- ggplot(data=cancer,aes(y=cancer[26],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[26]))
+b27<- ggplot(data=cancer,aes(y=cancer[27],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[27]))
+b28<- ggplot(data=cancer,aes(y=cancer[28],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[28]))
+b29<- ggplot(data=cancer,aes(y=cancer[29],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[29]))
+b30<- ggplot(data=cancer,aes(y=cancer[30],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[30]))
+b31<- ggplot(data=cancer,aes(y=cancer[31],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[31]))
+b32<- ggplot(data=cancer,aes(y=cancer[32],
+                             x=diagnosis)) +
+         geom_boxplot() +
+         ylab(names(cancer[32]))
+
+
+grid.arrange(b3,b4,b5,b6,b7,b8,ncol=3,
+             top = "Exploratory Data Analysis of each variable by diagnosis")
+grid.arrange(b9,b10,b11,b12,b13,b14,ncol=3,
+             top = "Exploratory Data Analysis of each variable by diagnosis")
+grid.arrange(b15,b16,b17,b18,b19,b20,ncol=3,
+             top = "Exploratory Data Analysis of each variable by diagnosis")
+grid.arrange(b21,b22,b23,b24,b25,b26,ncol=3,
+             top = "Exploratory Data Analysis of each variable by diagnosis")
+grid.arrange(b27,b28,b29,b30,b31,b32,ncol=3,
+             top = "Exploratory Data Analysis of each variable by diagnosis")
+   
+```
+
+
+##EDA
+Continue the EDA by further investigation of several of the variables that look promising in the box plots.
+```{r}
+plot1 <- ggplot(data=cancer,aes(x=concave.points_mean,
+                                y=perimeter_worst,
+                                size=concave.points_worst, color=diagnosis))+
+         geom_point()+ 
+         ggtitle('Concave Pts Mean vs. Perimeter Max vs. Concave Pts Max')
+
+plot1
+
+plot2 <- ggplot(data=cancer,aes(x=concave.points_worst,
+                                y=perimeter_worst,
+                                size=area_worst,color=diagnosis))+ 
+         geom_point() +
+         ggtitle('Concave Pts Max vs. Perimeter Max vs. Area Max')
+
+plot2
+
+plot3 <- ggplot(data=cancer,aes(x=concave.points_worst,
+                                y=concave.points_mean,
+                                size=area_worst,color=diagnosis))+
+         geom_point()+
+         ggtitle('Concave Pts Max vs. Concave Pts Mean vs. Area Max')
+
+plot3
+
+plot4 <- ggplot(data=cancer,aes(x=perimeter_worst,
+                                y=concave.points_mean,
+                                size=area_worst,color=diagnosis))+
+         geom_point()+
+         ggtitle('Perimiter Max vs. COncave Pts Mean vs.Area Worst')
+
+plot4
+
+plot5 <- ggplot(data=cancer,aes(x=area_mean,
+                                y=concave.points_mean,
+                                size=texture_mean,color=diagnosis))+
+         geom_point()+
+         ggtitle('area Mean vs. concave pts mean vs. texture mean')
+
+plot5
+
+plot6<- ggplot(data=cancer, aes(x= cancer$diagnosis,
+                                y=cancer$concave.points_worst))+
+        geom_bar(stat= "identity") + 
+        labs(x=('Benign or Malignant'),
+             y= ('Number of Concave Points (worst)'),
+        title= 'Quantity of Worst Concave Points vs Diagnosis')
+  
+plot6
+
+H7<- ggplot(data=cancer, aes(x=cancer$concave.points_mean,
+                             fill=cancer$diagnosis))+
+     geom_histogram(alpha=0.5,position="identity")+ 
+     labs(x= 'Number of Mean Concave Points',
+          title= 'Histogram of Mean Concave Points')
+
+H7
+
+H8<- ggplot(data= cancer, aes(x= cancer$concave.points_worst,
+                              fill=cancer$diagnosis))+
+     geom_histogram(alpha=0.5,position="identity")+
+     labs(x='Number of Worst Concave Points',
+          title= 'Histogram of Worst Concave Points')
+
+H8
+
+H9<- ggplot(data=cancer, aes(x=cancer$area_worst,
+                             fill=cancer$diagnosis))+
+     geom_histogram(alpha=0.5,position="identity")+
+     labs(x= 'Worst Area',
+          title= 'Histogram of Worst Area')
+
+H9
+
+H10<- ggplot(data= cancer, aes(x= cancer$perimeter_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+
+      labs(x='Worst Perimeter',
+           title= 'Histogram of Worst Area')
+
+H10
+
+H11<- ggplot(data= cancer, aes(x= cancer$radius_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+
+      labs(x='Worst Radius',
+           title= 'Histogram of Worst Radius')
+
+H11
+
+H12<- ggplot(data=cancer, aes(x=cancer$symmetry_worst,
+                              fill=cancer$diagnosis))+
+       geom_histogram(alpha=0.5,position="identity")+ 
+       labs(x= 'Worst Symmetry', 
+            title= 'Histogram of Worst Symmetry')
+
+H12
+
+H13<- ggplot(data= cancer, aes(x= cancer$compactness_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+
+      labs(x='Worst Compactness',
+           title= 'Histogram of Worst Compactness')
+
+H13
+
+H14<- ggplot(data= cancer, aes(x= cancer$texture_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+ 
+      labs(x='Worst Texture',
+           title= 'Histogram of Worst Texture')
+
+H14
+
+H15<- ggplot(data= cancer, aes(x= cancer$fractal_dimension_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+ 
+      labs(x='Worst Fractal Dimension', 
+           title= 'Histogram of Worst Fractal Dimension')
+
+H15
+
+H16<- ggplot(data= cancer, aes(x= cancer$concavity_worst,
+                               fill=cancer$diagnosis))+
+      geom_histogram(alpha=0.5,position="identity")+ 
+      labs(x='Worst Concavity',
+           title= 'Histogram of Concavity')
+
+H16
+
+```
+
+
+##Data setup
+Divide cancer into a test data set(20% of the total) and a train data set (80% of the total) 
+```{r}
+# set the seed per instruction
+set.seed(1874)  #1892  1842  1958 135
+# create n to for the number of rows in the data
+n <- nrow(cancer)
+#create an interger sample of the number of rows in the data set.
+#We want 20% in the test data set so
+# .2 time the numer of rows (n) gives the sample size.
+# test_idx will have 20% of the row numbers in it
+test_idx <- sample.int(n,size= round(0.2 * n))
+
+#Use test_idx to subset NHANES for the test data
+test <- cancer[test_idx,]
+#Use the inverse of test_idx, NOT test.idx to subset NHANES for the train data set
+train <- cancer[-test_idx,]
+
+#Check the number of rows in test and train
+print("Number of Rows in Test")
+print(nrow(test))
+print("Distribution of Benign and Malignant in Test Data")
+testtable <- table(test$diagnosis)
+testtable
+
+print("Number of Rows in Train")
+print(nrow(train))
+print("Distribution of Benign and Malignant in Train Data")
+traintable <- table(train$diagnosis)
+traintable
+```
+##Decision Tree
+Create a decision tree to predict Benign or Malignant.
+```{r}
+set.seed(1874)
+library(rpart)
+#Tally the HardDrugs variable to get the percentage of Yes and No answers to 
+#check the base as the Null model
+mosaic::tally(~diagnosis, data=train, format = 'percent',useNA="no")
+
+# select the names of the variables to use in the tree.  Eliminate the ID and Diagnosis
+#as well as X 
+nam <- names(cancer[3:32])
+
+# Create formula to model diagnosis based on the variables pulled in the previous step
+
+formfull <- as.formula(paste("diagnosis ~" , paste(nam,collapse =" + ") ) )
+
+# rpart.control(minsplit = 20, minbucket = round(minsplit/3), cp = 0.01, 
+#               maxcompete = 4, maxsurrogate = 5, usesurrogate = 2, xval = 10,
+#               surrogatestyle = 0, maxdepth = 30, ...)
+
+#create the base decision tree on the training data
+
+diag_tree <- rpart(formfull, data=train,
+                   control = rpart.control(cp = 0.001))
+diag_tree
+
+#Create a loss matrix to direct the weights in the decision making,
+#The matrix is  (True Positive, False Positive, False Negative, True Negative)
+#R puts factors alphabetically and B for Benign will be first and is considered the
+#POSITVE row.
+# We want to weight against a True Malignant being classified as Benign  weighting the
+#FALSE POSITIVE
+# low and the FALSE NEGATIVE high directs the tree to decide the way we prefer    
+
+lossmatrix <- matrix(c(0,1,2,0), byrow=TRUE, nrow=2)
+print("Loss Matrix")
+lossmatrix
+
+#create a second tree using the loss matrix
+diag_tree2 <- rpart(formfull, data=train,
+                   parms = list(loss = lossmatrix),
+                  control = rpart.control(cp = 0.001))
+#                  control = rpart.control(cp = 0.001, minsplit =10))
+diag_tree2
+
+#create a third tree using the minsplit
+diag_tree3 <- rpart(formfull, data=train,
+                   parms = list(loss = lossmatrix),
+#                  control = rpart.control(cp = 0.001))
+                   control = rpart.control(cp = 0.001, minsplit =10))
+diag_tree3
+
+
+
+#Use the partykit library to print a nicer plot of the trees created above
+plot(as.party(diag_tree))
+printcp(diag_tree)
+
+plot(as.party(diag_tree2))
+printcp(diag_tree2)
+
+plot(as.party(diag_tree3))
+printcp(diag_tree3)
+
+#Use the test data to test the two decision trees and compare
+
+predict <- predict(diag_tree, test,type="class")
+predict2 <- predict(diag_tree2, test,type="class")
+predict3 <- predict(diag_tree3, test,type="class")
+
+#Generate the confusion matrix for the predictions.
+#note the use of positive =M parameter.
+#For the confusion matrix statistics Positive means Malignant and Negative means Benign
+
+table(predict,test$diagnosis)
+caret::confusionMatrix(predict,test$diagnosis, positive="M")
+
+table(predict2,test$diagnosis)
+caret::confusionMatrix(predict2,test$diagnosis, positive="M")
+
+table(predict3,test$diagnosis)
+caret::confusionMatrix(predict3,test$diagnosis, positive="M")
+
+```
+
+
+```{r}
+misses <- filter(test, test$diagnosis != predict) 
+
+pred <- ggplot(NULL,aes(x=concave.points_worst,y=perimeter_worst,color=diagnosis)) +
+               geom_point(data=test) +
+               geom_point(data=misses, color='black', size=3) +
+               ggtitle('Concave Pts Worst vs. Perimeter Worst Highlight Misses in Black')
+
+pred
+
+
+misses2 <- filter(test, test$diagnosis != predict2) 
+
+pred2 <- ggplot(NULL,aes(x=concave.points_worst,y=perimeter_worst,color=diagnosis)) +
+               geom_point(data=test) +
+               geom_point(data=misses2, color='black', size=3) +
+               ggtitle('Concave Pts Worst vs. Perimeter Worst Highlight Misses in Black')
+
+pred2
+
+misses3 <- filter(test, test$diagnosis != predict3) 
+
+pred3 <- ggplot(NULL,aes(x=concave.points_worst,y=perimeter_worst,color=diagnosis)) +
+               geom_point(data=test) +
+               geom_point(data=misses3, color='black', size=3) +
+               ggtitle('Concave Pts Worst vs. Perimeter Worst Highlight Misses in Black')
+
+pred3
+```
+
+#Random Forest
+###Create a Random Forest to predict Benign or Malignant
+```{r}
+#Set the seed to ensure similar "random" selections as the other processes
+set.seed(1874)
+library(randomForest)
+
+#Use the randomForest on the training data with 6 variables tried at each split and 501
+#trees created
+diag_forest <- randomForest(formfull,
+                         data=train,
+                         mtry=6,
+                         ntree=501,
+                         na.action=na.roughfix)
+diag_forest
+#Give the importance chart to determine which variables were most often used over the
+#course of the bootstrapped forest
+importance(diag_forest)
+
+#Use the random forest to make predictions on the classification of the test data
+test_forest <- predict(diag_forest,newdata = test,type="class")
+#Confusion Matrix for the Random Forest with all of the variables
+table(test_forest,test$diagnosis)
+```
+
+```{r}
+set.seed(1874)
+#Create the formula with diagnosis as response and the main five predictors as predictor
+#variables
+formfive <- as.formula(diagnosis ~ perimeter_worst + concave.points_worst + area_worst +                        radius_worst + concave.points_mean)
+
+#Use the five-variable-formula randomForest on the training data with 2 variables tried at
+#each split and 501 trees created
+diag_forest2 <- randomForest(formfive,
+                         data=train,
+                         mtry=2,
+                         ntree=501,
+                         na.action=na.roughfix)
+diag_forest2
+
+#Give the importance chart to determine which variables were most often used over the
+#course of the bootstrapped forest
+importance(diag_forest2)
+
+#Use the random forest to make predictions on the classification of the test data
+test_forest2 <- predict(diag_forest2,newdata = test,type="class")
+
+#Confusion Matrix for the Random Forest with the "most important" five variables
+print("Confusion Matrix for RF with 5 variables")
+table(test_forest2,test$diagnosis)
+```
+
+## KNN
+Use the K-Nearest Neighbors alorithm to determine if cells are Benign or Malignant
+```{r }
+library(class)
+
+#rescale the whole data frame before KNN process
+##Create a rescale function to rescale each variable
+rescale_x <- function(x){(x-min(x))/(max(x)-min(x))}
+
+#Copy the Cancer dataset over to be rescaled without the NA variable called "x"
+Cancer_new <- cancer[-33]
+
+#Use a for loop to rescale each variable indpendently of the others
+for (i in c(3:32)){
+Cancer_new[[i]] <- rescale_x(Cancer_new[[i]])
+}
+
+#Separate a new Training and Test Data Set with rescaled values
+set.seed(1874)
+n2 <- nrow(Cancer_new)
+#Sample 20% of the integers less than the number of observations to create a randomized
+#index
+test_index2 <- sample.int(n2,size=round(0.2*n2))
+
+#Use the complement of the randomized index to select the training data
+training_data2 <- Cancer_new[-test_index2,]
+#Use the randomized index to select the test data
+test_data2 <- Cancer_new[test_index2,]
+
+#Run the KNN algorithm on the rescaled training and test data sets using the 11 nearest
+#neighbors
+#This k value gave us the smallest error
+diag_KNN1 <- knn(training_data2[3:32],
+                    test=test_data2[3:32],
+                    cl=training_data2$diagnosis,
+                    k=11)
+print("Confusion matrix for the test data with all predictor variables:")
+table(diag_KNN1, test_data2$diagnosis)
+```
+
+```{r }
+#Run the same KNN algorithm steps with just the most important variables in the formula
+#(reducing the "noise")
+Cancer_new2 <- select(Cancer_new, diagnosis, perimeter_worst, concave.points_worst,
+                      area_worst, radius_worst, concave.points_mean, area_mean)
+               #      ,radius_mean,area_se)
+# perimeter_mean,concavity_mean,
+
+#New Training and Test Data Set with rescaled values
+set.seed(1874)
+n2 <- nrow(Cancer_new2)
+# Sample 20% of the integers less than the number of observations to create a randomized
+#index
+test_index3 <- sample.int(n2,size=round(0.2*n2))
+
+#Use the complement of the randomized index to select the training data
+training_data3 <- Cancer_new2[-test_index3,]
+#Use the randomized index to select the test data
+test_data3 <- Cancer_new2[test_index3,]
+
+#Run the KNN algorithm on the rescaled training and test data sets using the 5 nearest
+#neighbors
+#We chose 5 as the k value which gave us the smallest error of predicting Benign when
+#actaully Malignant 
+diag_KNN2 <- knn(training_data3[2:7],
+                    test=test_data3[2:7],
+                    cl=training_data3$diagnosis,
+                    k=5)
+
+print("Confusion matrix for test data with 6 predictor variables:")
+table(diag_KNN2, test_data3$diagnosis)
+```
